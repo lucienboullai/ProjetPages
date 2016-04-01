@@ -6,7 +6,7 @@ class AmericanPutPayoff :
 {
 public:
 	AmericanPutPayoff(double strike, double maturity, int N, int b, int M);
-	virtual void evaluate(double* spots, double* payoffs);	//Returns max(0, strike - spot)
+	virtual void evaluate(double* spots, double* payoffs) const;	//Returns max(0, strike - spot)
 	virtual ~AmericanPutPayoff();
 private:
 	double strike;							//Strike of the put

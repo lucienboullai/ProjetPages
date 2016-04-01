@@ -8,7 +8,7 @@ strike(strike)
 	americanStyle = true;
 }
 
-void AmericanPutPayoff::evaluate(double* spots, double* payoffs)
+void AmericanPutPayoff::evaluate(double* spots, double* payoffs) const
 {
 	for (int j = 0; j < b*N; j++)
 		payoffs[j] = std::max(0.0, strike - spots[j]);

@@ -6,12 +6,17 @@ class Payoff
 {
 public:
 	Payoff(int N, int b, int M);
-	virtual void evaluate(double* spots, double* payoffs) = 0;	//Purely virtual function, should be implemented in the derived class
-	virtual ~Payoff();
+        Payoff(const Payoff & payoff);
+	virtual void evaluate(double* spots, double* payoffs) const = 0;	//Purely virtual function, should be implemented in the derived class
+//	static void sort(double* payoffs);
+        virtual ~Payoff();
+        int getNumAsset() const;
+        int getNumPath() const;
+        int getNumTimeSteps() const;
 protected:
-	int N;
+	int N;                                                                          //Number of Time Steps
 	int M;										//Number of Assets
 	int b;										//NUmber of paths
-	double maturity;							//Maturity of the associated contract in year
+        double maturity;							//Maturity of the associated contract in year
 	bool americanStyle;							//True if american option, false otherwise
 };
