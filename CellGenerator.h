@@ -17,6 +17,7 @@
 #include "Payoff.h"
 #include <iostream>
 #include<fstream>
+#include<cassert>
 
 using namespace std;
 

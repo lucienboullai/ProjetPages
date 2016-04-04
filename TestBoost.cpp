@@ -13,7 +13,7 @@
 int main()
 {
 	double rate = 0.0;
-	double vol = 0.1;
+	double vol = 0.2;
 	int N = 10;
 	int M = 1;
 	int b = 1000;

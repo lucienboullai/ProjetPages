@@ -37,7 +37,7 @@ void CellGenerator::cellsDistribution(int n, int * an, double * cn) const{
     while (sortedPayoffs[x+n*b]==0 && x<b) ++x;
     an[0]=x;
     cn[0]=0;
-    csv<<0<<";"<<x<<endl;
+    csv<<0<<";"<<x<<";"<<"0"<<endl;
     xm1=x;
     if(x==b) return;
     for(int i=1;i<k;i++){
@@ -56,10 +56,13 @@ void CellGenerator::cellsDistribution(int n, int * an, double * cn) const{
 
     }
     sum=0;
-    for(int j=x;j<=b;j++) sum+=sortedPayoffs[j+n*b];
+    for(int j=x;j<b;j++) {
+        sum+=sortedPayoffs[j+n*b];
+        assert(sortedPayoffs[j+n*b]>=cells[n*(k-1)-1]);
+    }
     cn[k]=sum;
     an[k]=b-x;
-    csv<<k<<";"<<an[k]<<endl<<endl;
+    csv<<k<<";"<<an[k]<<";"<<cn[k]/(double)an[k]<<endl<<endl;
     csv.close();
     return;
 }
@@ -74,22 +77,22 @@ void CellGenerator::cellsDistribution(int * a, double* c ) const{
     }    
 };
 
-void CellGenerator::countTransition (int * bij) const{                                  //b[j+(k+1)*i+(k+1)*(k+1)*(n-1)] : nombre transitions de cell i au temps n vers j
+void CellGenerator::countTransition (int * bij) const{                                  //b[j+(k+1)*i+(k+1)*(k+1)*(n-1)] : nombre transitions de cell i au temps n vers j en n+1
     for (int m=0 ; m<b ; m++){
-        for (int n=0; n<N; n++){
+        for (int n=1; n<N-1; n++){
             int i=findCell(payoffs[n*b+m], n);
-            int j=findCell(payoffs[(n+1)*b+m], n);
+            int j=findCell(payoffs[(n+1)*b+m], n+1);
             bij[j+(k+1)*i+(k+1)*(k+1)*(n-1)]+=1;
         }
     }
 };
 
 int CellGenerator::findCell(double v, int n) const{
-    if (v>cells[n*(k-1)-1]) return k+1;
+    if (v>cells[n*(k-1)-1]) return k;
     if (v==0) return 0;
     if (v<cells[(n-1)*(k-1)]) return 1;
-    if (v<cells[(n-1)*(k-1)+(k-1)/2]) return findCell(v, 0, (k-1)/2, n);
-    else return findCell(v, (k-1)/2, k-1, n);
+    if (v<cells[(n-1)*(k-1)+(k-2)/2]) return findCell(v, 0, (k-2)/2, n);
+    else return findCell(v, (k-2)/2, k-2, n);
 }
 
 int CellGenerator::findCell(double v, int a, int b, int n) const{
