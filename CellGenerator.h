@@ -25,13 +25,21 @@ class CellGenerator{
     const Payoff & payoff;
     double* cells;
     int k;
+    int N;
+    int b;
     void fillCell(int i, double v);
     double * sortedPayoffs;
+    double * payoffs;
   public: 
     CellGenerator(int k, const Payoff & payoff, double* spots);
-    void cellDistribution(int n) const;
-    void cellsDistribution() const;
+    void cellsDistribution(int n,int * an, double* cn) const;
+    void cellsDistribution(int * a, double* c) const;
+    void countTransition (int * b) const;
+    int findCell(double v, int n) const;
+    int findCell(double v, int a, int b, int n) const;
+    virtual ~CellGenerator();
 };
+
 
 
 
